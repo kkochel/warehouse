@@ -1,8 +1,10 @@
---changeset author:kkochel init DB
+--liquibase formatted sql
+
+--changeset author:kkochel:init_DB
 
 CREATE SCHEMA WHOLESALER;
 
---changeset author:kkochel add table products
+--changeset author:kkochel:add_table_products
 create table WHOLESALER.STOCKS
 (
     id      bigint not null primary key,
@@ -30,3 +32,14 @@ create table WHOLESALER.STOCK_ITEMS
 create sequence WHOLESALER.PRODUCTS_SEQ START WITH 1 INCREMENT BY 1;
 create sequence WHOLESALER.STOCK_SEQ START WITH 1 INCREMENT BY 1;
 create sequence WHOLESALER.STOCK_ITEM_SEQ START WITH 1 INCREMENT BY 1;
+
+--changeset author:kkochel:add_tabl_customers
+
+create table WHOLESALER.CUSTOMERS
+(
+    id            bigint not null primary key,
+    customer_name varchar(250),
+    version       integer
+);
+
+create sequence WHOLESALER.CUSTOMERS_SEQ START WITH 1 INCREMENT BY 1;

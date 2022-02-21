@@ -27,7 +27,7 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ProductDto add(@RequestBody ProductPost post) {
-        return service.addNew(post);
+    public ResponseEntity<ProductDto> add(@RequestBody ProductPost post) {
+        return ResponseEntity.ok(service.addNew(post));
     }
 }
