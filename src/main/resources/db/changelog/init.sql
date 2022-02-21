@@ -14,10 +14,10 @@ create table WHOLESALER.STOCKS
 );
 create table WHOLESALER.PRODUCTS
 (
-    id       bigint       not null primary key,
-    name     varchar(250) not null,
-    number   varchar(250),
-    version  integer
+    id      bigint       not null primary key,
+    name    varchar(250) not null,
+    number  varchar(250),
+    version integer
 );
 
 create table WHOLESALER.STOCK_ITEMS
@@ -43,3 +43,18 @@ create table WHOLESALER.CUSTOMERS
 );
 
 create sequence WHOLESALER.CUSTOMERS_SEQ START WITH 1 INCREMENT BY 1;
+
+--changeset author:kkochel:add_table_sales
+
+create table WHOLESALER.SALES
+(
+    id          bigint not null primary key,
+    product_id  bigint,
+    customer_id bigint,
+    uuid        UUID,
+    lot_id      varchar(250),
+    created     timestamp
+
+);
+
+create sequence WHOLESALER.SALE_SEQ START WITH 1 INCREMENT BY 1;
