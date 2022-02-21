@@ -1,31 +1,54 @@
 package pl.recruitmenttask.product;
 
+import pl.recruitmenttask.warehouse.Stock;
+import pl.recruitmenttask.warehouse.StockRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 class ProductService {
+    private final ProductRepository productRepository;
+    private final StockRepository stockRepository;
 
-    private final ProductRepository repository;
-
-    public ProductService(ProductRepository repository) {
-        this.repository = repository;
+    public ProductService(ProductRepository productRepository, StockRepository stockRepository) {
+        this.productRepository = productRepository;
+        this.stockRepository = stockRepository;
     }
 
     List<ProductDto> getAll() {
-        List<Product> all = repository.findAll();
-        return all.stream().map(ProductDto::fromEntity).collect(Collectors.toList());
+        List<ProductDto> dtos = new ArrayList<>();
+        List<Product> entities = productRepository.findAll();
+
+        for (Product p : entities) {
+            ProductDto dto = ProductDto.fromEntity(p);
+            dto.add(linkTo(ProductController.class).slash(p.getId()).withSelfRel());
+            dtos.add(dto);
+        }
+
+        return dtos;
     }
 
     ProductDto addNew(ProductPost post) {
-        Optional<Product> fromDb = repository.getByNameAndCatalogNumber(post.name.value, post.number.value);
+        Optional<Product> fromDb = productRepository.getByNameAndCatalogNumber(post.name.value, post.number.value);
 
         if (fromDb.isPresent()) {
             return ProductDto.fromEntity(fromDb.get());
         } else {
             Product newProduct = new Product(post.name.value, post.number.value);
-            repository.save(newProduct);
-            return ProductDto.fromEntity(newProduct);
+            productRepository.save(newProduct);
+
+            Stock stock = new Stock(newProduct);
+            stockRepository.save(stock);
+
+            newProduct.setStock(stock);
+
+            ProductDto dto = ProductDto.fromEntity(newProduct);
+            dto.add(linkTo(ProductController.class).slash(newProduct.getId()).withSelfRel());
+
+            return dto;
         }
     }
 }

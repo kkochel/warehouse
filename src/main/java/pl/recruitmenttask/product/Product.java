@@ -1,17 +1,18 @@
 package pl.recruitmenttask.product;
 
 import org.hibernate.validator.constraints.Length;
+import pl.recruitmenttask.warehouse.Stock;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Table(schema = "WAREHOUSE", name = "PRODUCTS")
+@Table(schema = "WHOLESALER", name = "PRODUCTS")
 @Entity
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRODUCTS_SEQ")
-    @SequenceGenerator(name = "PRODUCTS_SEQ", sequenceName = "WAREHOUSE.PRODUCTS_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "PRODUCTS_SEQ", sequenceName = "WHOLESALER.PRODUCTS_SEQ", allocationSize = 1)
     @Column(updatable = false, nullable = false, name = "id")
     private Long id;
 
@@ -25,6 +26,8 @@ public class Product {
     @Column(nullable = false, unique = true)
     private String number;
 
+    @OneToOne(mappedBy = "product",fetch = FetchType.LAZY)
+    private Stock stock;
 
     @Version
     int version;
@@ -59,5 +62,13 @@ public class Product {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
     }
 }

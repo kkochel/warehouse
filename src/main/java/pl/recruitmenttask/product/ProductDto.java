@@ -6,19 +6,17 @@ import pl.recruitmenttask.commons.Name;
 
 import java.util.Objects;
 
-class ProductDto extends RepresentationModel<ProductDto> {
-    public Long id;
+public class ProductDto extends RepresentationModel<ProductDto> {
     public Name name;
     public CatalogNumber number;
 
-    public ProductDto(Long id, Name name, CatalogNumber number) {
-        this.id = id;
+    public ProductDto(Name name, CatalogNumber number) {
         this.name = name;
         this.number = number;
     }
 
     public static ProductDto fromEntity(Product product){
-        return new ProductDto(product.getId(), new Name(product.getName()), new CatalogNumber(product.getNumber()));
+        return new ProductDto(new Name(product.getName()), new CatalogNumber(product.getNumber()));
     }
 
     @Override
@@ -27,11 +25,11 @@ class ProductDto extends RepresentationModel<ProductDto> {
         if (!(o instanceof ProductDto)) return false;
         if (!super.equals(o)) return false;
         ProductDto that = (ProductDto) o;
-        return id.equals(that.id) && name.equals(that.name) && number.equals(that.number);
+        return name.equals(that.name) && number.equals(that.number);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id, name, number);
+        return Objects.hash(super.hashCode(), name, number);
     }
 }

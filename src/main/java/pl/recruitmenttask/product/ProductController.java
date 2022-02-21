@@ -21,18 +21,13 @@ public class ProductController {
     public ResponseEntity<CollectionModel<ProductDto>> all() {
         List<ProductDto> all = service.getAll();
 
-        for (ProductDto d : all) {
-            d.add(linkTo(ProductController.class).slash(d.id).withSelfRel());
-        }
-
         CollectionModel<ProductDto> out = CollectionModel.of(all, linkTo(ProductController.class).withSelfRel());
+
         return ResponseEntity.ok(out);
     }
 
     @PostMapping()
     public ProductDto add(@RequestBody ProductPost post) {
-        ProductDto dto = service.addNew(post);
-
-        return dto.add(linkTo(ProductController.class).slash(dto.id).withSelfRel());
+        return service.addNew(post);
     }
 }
