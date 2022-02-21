@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pl</groupId>
-    <artifactId>RecruitmentTask</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>RecruitmentTask</name>
-    <description>RecruitmentTask</description>
+    <artifactId>pharma-warehouse</artifactId>
+    <version>0.5.0</version>
+    <name>pharma-warehouse</name>
+    <description>pharma-warehouse</description>
     <properties>
         <java.version>1.8</java.version>
         <testcontainers.version>1.16.2</testcontainers.version>
@@ -54,23 +54,8 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
+
     </dependencies>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.testcontainers</groupId>
-                <artifactId>testcontainers-bom</artifactId>
-                <version>${testcontainers.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
